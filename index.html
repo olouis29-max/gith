@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Portal</title>
+</head>
+<body>
+
+    <form id="submissionForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="text" id="message" placeholder="Message" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        const FORM = document.getElementById('submissionForm');
+        // Replace this with your actual Discord Webhook URL
+        const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+
+        FORM.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                username: document.getElementById('username').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `**New Submission**\nUser: ${data.username}\nMessage: ${data.message}`
+                    })
+                });
+                alert('Submission successful.');
+            } catch (err) {
+                console.error('Submission failed:', err);
+                alert('An error occurred.');
+            }
+        });
+    </script>
+</body>
+</html>
